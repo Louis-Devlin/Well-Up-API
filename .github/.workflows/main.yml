@@ -28,13 +28,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: gcr.io/dotnethostingtest-400416/dotnethostingtest:latest
+          tags: gcr.io/well-up-api/well-up:latest
           build-args: |
             HTTP_PORT=8080
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v1
         with:
-          image: gcr.io/dotnethostingtest-400416/dotnethostingtest:latest
+          image: gcr.io/well-up-api/well-up:latest
           service: dotnethostingtest
           region: us-central1
