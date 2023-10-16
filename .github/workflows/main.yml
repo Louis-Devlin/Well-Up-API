@@ -36,5 +36,5 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v1
         with:
           image: gcr.io/well-up-api/well-up:latest
-          service: dotnethostingtest
-          region: us-central1
+          service: well-up-api
+          region: europe-west2
