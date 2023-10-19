@@ -2,6 +2,7 @@
 using Well_Up_API.Services;
 using Well_Up_API.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 namespace Well_Up_API.Controllers
 {
     [ApiController]
@@ -13,13 +14,13 @@ namespace Well_Up_API.Controllers
 		public TestsController(TestService testService) => _testService = testService;
 
 		[HttpGet]
-		public async Task<List<TestModel>> Get() => await _testService.GetAsync();
+		public  List<TestModel> Get() =>  _testService.GetAsync();
 
 
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<TestModel>> Get(string id)
+        [HttpGet("{id}")]
+        public  async Task<ActionResult<TestModel>> Get(string id)
         {
-            var book = await _testService.GetAsync(id);
+            var book =  _testService.GetAsync(id);
 
             if (book is null)
             {
@@ -32,10 +33,24 @@ namespace Well_Up_API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(TestModel newTest)
         {
-            await _testService.CreateAsync(newTest);
+             _testService.CreateAsync(newTest);
 
             return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
         }
+        
+        [HttpPut]
+          public  async Task<IActionResult> Update( TestModel newModel){
+             _testService.UpdateAsync(newModel);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete (string id){
+             _testService.DeleteAsync(id);
+            return NoContent();
+            
+        }
+        
 
     }
 }
