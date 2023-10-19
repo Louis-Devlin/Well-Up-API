@@ -8,4 +8,4 @@ For those who wish to monitor their mood and improve their habits and mental hea
 
 
 
-C# ASP.Net Web API hosted on Google Cloud Run using MongoDB for data storage
+C# ASP.Net Web API hosted on Google Cloud Run using  a PostgreSQL DB hosted on AWS RDS for data storage
