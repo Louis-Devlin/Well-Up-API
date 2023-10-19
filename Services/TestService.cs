@@ -1,7 +1,5 @@
 ﻿using System;
 using Well_Up_API.Models;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
 namespace Well_Up_API.Services
