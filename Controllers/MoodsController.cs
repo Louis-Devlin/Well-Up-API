@@ -28,6 +28,12 @@ namespace Well_Up_API.Controllers
             Console.WriteLine($"Value is {value}");
             return _moodService.GetMoodGroup(value);
         }
+
+        [HttpPost]
+        public List<Mood> GetMoods()
+        {
+            return _moodService.GetMoods();
+        }
     }
 
 }

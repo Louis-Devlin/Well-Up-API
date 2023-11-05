@@ -19,7 +19,11 @@ namespace Well_Up_API.Services
         }
         public List<Mood> GetMoodGroup(int value)
         {
-            return _context.Mood.Where(y => y.PositionY == value).ToList();
+            if (value == 0)
+            {
+                return _context.Mood.Where(y => y.PositionY == value).ToList();
+            }
+            return _context.Mood.Where(y => y.PositionY == value - 1).ToList();
         }
         public void PopulateMood()
         {

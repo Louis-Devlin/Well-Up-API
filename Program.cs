@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Well_Up_API.Models;
 using Well_Up_API.Services;
+using Microsoft.Extensions.ML;
+using Well_Up_API.ML.DataModels;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PostgresDbContext>(opt =>
         opt.UseNpgsql(builder.Configuration.GetConnectionString("PosgresDB")));
+
+
+builder.Services.AddPredictionEnginePool<SampleObservation, SamplePrediction>()
+                    .FromFile(builder.Configuration["MLModel:MLModelFilePath"]);
 
 builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<MoodService>();
