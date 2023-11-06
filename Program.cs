@@ -31,6 +31,7 @@ builder.Services.AddPredictionEnginePool<SampleObservation, SamplePrediction>()
 
 builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<MoodService>();
+builder.Services.AddScoped<MoodLogService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
