@@ -21,12 +21,6 @@ namespace Well_Up_API.Controllers
         [HttpPost]
         public IActionResult LogMood([FromBody] MoodLogRequest moodLog)
         {
-            Console.WriteLine("HIT CREATE LOGMOOD");
-            Console.WriteLine($"MoodID: {moodLog.MoodId}");
-            Console.WriteLine($"Date: {moodLog.Date}");
-            Console.WriteLine($"UserId: {moodLog.UserId}");
-
-
             var newMood = new MoodLog()
             {
                 MoodId = moodLog.MoodId,
@@ -35,7 +29,6 @@ namespace Well_Up_API.Controllers
             };
             var moodId = _moodLogService.LogMood(newMood);
             return CreatedAtAction(nameof(GetLoggedMood), new { id = moodId }, moodLog);
-
         }
         [HttpGet]
         public MoodLog GetLoggedMood(int id)
