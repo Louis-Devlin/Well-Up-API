@@ -13,8 +13,8 @@ namespace Well_Up_API.Models
         public int UserId { get; set; }
 
         public DateTime Date { get; set; }
-        public Mood Mood { get; set; }
+        public Mood? Mood { get; set; }
 
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

@@ -42,6 +42,12 @@ namespace Well_Up_API.Controllers
         {
             return _moodLogService.Get(id);
         }
+        [Route("/User/{id}")]
+        [HttpGet]
+        public List<MoodLogResponse> GetByUser(int id)
+        {
+            return _moodLogService.GetByUser(id);
+        }
 
     }
 }

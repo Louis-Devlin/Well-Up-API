@@ -29,7 +29,6 @@ builder.Services.AddDbContext<PostgresDbContext>(opt =>
 builder.Services.AddPredictionEnginePool<SampleObservation, SamplePrediction>()
                     .FromFile(builder.Configuration["MLModel:MLModelFilePath"]);
 
-builder.Services.AddScoped<TestService>();
 builder.Services.AddScoped<MoodService>();
 builder.Services.AddScoped<MoodLogService>();
 var app = builder.Build();

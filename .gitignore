@@ -401,3 +401,5 @@ FodyWeavers.xsd
 .DS_Store
 ML/.DS_Store
 .DS_Store
+.vscode/tasks.json
+.vscode/launch.json

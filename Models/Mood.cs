@@ -8,13 +8,13 @@ namespace Well_Up_API.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MoodId { get; set; }
-        public string MoodName { get; set; }
+        public string? MoodName { get; set; }
 
         public int PositionX { get; set; }
 
         public int PositionY {get;set;}
 
-        public ICollection<MoodLog> MoodLogs{get;set;}
+        public ICollection<MoodLog>? MoodLogs{get;set;}
 
     }
 
