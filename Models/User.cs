@@ -8,17 +8,17 @@ namespace Well_Up_API.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
 
         public ICollection<MoodLog> MoodLogs { get; set; }
+
         public User(string name, string email)
         {
             Name = name;
             Email = email;
         }
-
-
     }
 }

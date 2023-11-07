@@ -41,6 +41,5 @@ namespace Well_Up_API.Controllers
         {
             return _moodLogService.GetByUser(id);
         }
-
     }
 }

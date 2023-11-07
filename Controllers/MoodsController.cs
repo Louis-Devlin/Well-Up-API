@@ -3,14 +3,12 @@ using Well_Up_API.Models;
 using Well_Up_API.Services;
 
 namespace Well_Up_API.Controllers
-
 {
     [ApiController]
     [Route("api/[controller]")]
 
     public class MoodsController : ControllerBase
     {
-
         private readonly MoodService _moodService;
 
         public MoodsController(MoodService moodService) => _moodService = moodService;
@@ -27,13 +25,12 @@ namespace Well_Up_API.Controllers
             Console.WriteLine($"Value is {value}");
             return _moodService.GetMoodGroup(value);
         }
+
         [HttpPost]
         public IActionResult PopulateDB()
         {
             _moodService.PopulateMood();
             return CreatedAtAction(nameof(GetMoods), null);
         }
-
     }
-
 }

@@ -10,11 +10,14 @@ namespace Well_Up_API.Models
         public int MoodLogId { get; set; }
 
         public int MoodId { get; set; }
+
         public int UserId { get; set; }
 
         public DateTime Date { get; set; }
+
         public Mood? Mood { get; set; }
 
         public User? User { get; set; }
+
     }
 }
