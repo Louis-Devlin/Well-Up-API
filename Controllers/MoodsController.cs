@@ -31,9 +31,9 @@ namespace Well_Up_API.Controllers
         public IActionResult PopulateDB()
         {
             _moodService.PopulateMood();
-            return CreatedAtAction(nameof(GetMoods),null);
+            return CreatedAtAction(nameof(GetMoods), null);
         }
-       
+
     }
 
 }

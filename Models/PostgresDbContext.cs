@@ -11,7 +11,7 @@ namespace Well_Up_API.Models
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<MoodLog> MoodLog {get;set;}
+        public DbSet<MoodLog> MoodLog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

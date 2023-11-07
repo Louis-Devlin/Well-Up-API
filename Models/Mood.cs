@@ -1,5 +1,5 @@
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Well_Up_API.Models
 {
@@ -12,9 +12,9 @@ namespace Well_Up_API.Models
 
         public int PositionX { get; set; }
 
-        public int PositionY {get;set;}
+        public int PositionY { get; set; }
 
-        public ICollection<MoodLog>? MoodLogs{get;set;}
+        public ICollection<MoodLog>? MoodLogs { get; set; }
 
     }
 
