@@ -12,8 +12,8 @@ using Well_Up_API.Models;
 namespace Well_Up_API.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20231106112617_MoodLog_1")]
-    partial class MoodLog_1
+    [Migration("20231115103821_15-9-23")]
+    partial class _15923
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,6 @@ namespace Well_Up_API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MoodId"));
 
                     b.Property<string>("MoodName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("PositionX")
@@ -72,19 +71,6 @@ namespace Well_Up_API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("MoodLog");
-                });
-
-            modelBuilder.Entity("Well_Up_API.Models.TestModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("Well_Up_API.Models.User", b =>

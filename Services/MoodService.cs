@@ -29,7 +29,11 @@ namespace Well_Up_API.Services
         {
             string text = File.ReadAllText(@"./moods.json");
             var Moods = JsonSerializer.Deserialize<List<Mood>>(text);
-            if (Moods != null)
+            foreach (var mood in Moods)
+            {
+                mood.Colour = (mood.PositionX >= 5) ? ((mood.PositionY >= 5) ? "green" : "blue") : ((mood.PositionY >= 5) ? "yellow" : "red");
+            }
+            if (Moods.Any())
             {
                 _context.Mood.AddRange(Moods);
                 _context.SaveChanges();

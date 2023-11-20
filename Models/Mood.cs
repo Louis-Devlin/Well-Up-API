@@ -15,6 +15,8 @@ namespace Well_Up_API.Models
 
         public int PositionY { get; set; }
 
+        public string? Colour {get;set;}
+
         public ICollection<MoodLog>? MoodLogs { get; set; }
 
     }
