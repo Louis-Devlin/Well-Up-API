@@ -14,6 +14,7 @@ namespace Well_Up_API.Models
         public string Email { get; set; }
 
         public ICollection<MoodLog> MoodLogs { get; set; }
+        public ICollection<HabitLog> HabitLogs { get; set; }
 
         public User(string name, string email)
         {

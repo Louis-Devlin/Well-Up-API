@@ -21,6 +21,12 @@ namespace Well_Up_API.Models
             modelBuilder.Entity<MoodLog>().HasOne(ml => ml.Mood).WithMany(m => m.MoodLogs).HasForeignKey(ml => ml.MoodId);
 
             modelBuilder.Entity<MoodLog>().HasOne(ml => ml.User).WithMany(u => u.MoodLogs).HasForeignKey(ml => ml.UserId);
+
+            modelBuilder.Entity<HabitLog>().HasKey(ml => ml.HabbitLogId);
+
+            modelBuilder.Entity<HabitLog>().HasOne(ml => ml.Habbit).WithMany(m => m.HabbitLogs).HasForeignKey(ml => ml.HabbitId);
+
+            modelBuilder.Entity<HabitLog>().HasOne(ml => ml.User).WithMany(m => m.HabitLogs).HasForeignKey(ml => ml.UserId);
         }
     }
 }
