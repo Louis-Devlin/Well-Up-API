@@ -1,4 +1,3 @@
-using Well_Up_API.Migrations;
 using Well_Up_API.Models;
 
 namespace Well_Up_API.Services
@@ -11,23 +10,22 @@ namespace Well_Up_API.Services
             _context = context;
         }
 
-        public Dictionary<string, int> GetLoggedHabits(int userId)
+        public List<HabitLogDTO> GetLoggedHabits(int userId)
         {
             var habits = _context.HabitLog.Where(h => h.UserId == userId).ToList();
-            Dictionary<string, int> habitLog = new Dictionary<string, int>();
-            foreach (HabitLog habit in habits)
+            Dictionary<int, int> habitLog = new Dictionary<int, int>();
+            foreach (var habit in habits.Select(h => h.HabitId))
             {
-                string id = habit.HabitId.ToString();
-                if (habitLog.ContainsKey(id))
+                if (habitLog.ContainsKey(habit))
                 {
-                    habitLog[id]++;
+                    habitLog[habit]++;
                 }
                 else
                 {
-                    habitLog[id] = 1;
+                    habitLog[habit] = 1;
                 }
             }
-            return habitLog;
+            return PrepareResponse(habitLog);
         }
 
         public int LogHabit(HabitLog log)
@@ -35,6 +33,23 @@ namespace Well_Up_API.Services
             _context.HabitLog.Add(log);
             _context.SaveChanges();
             return log.HabitLogId;
+        }
+
+        public List<HabitLogDTO> PrepareResponse(Dictionary<int, int> dict)
+        {
+            List<HabitLogDTO> habitLog = new List<HabitLogDTO>();
+            var keys = dict.Keys.ToList();
+            var loggedHabits = _context.Habit.Where(h => keys.Contains(h.HabitId));
+            foreach (var logged in loggedHabits)
+            {
+                habitLog.Add(new HabitLogDTO()
+                {
+                    HabbitId = logged.HabitId,
+                    HabitName = logged.HabitName,
+                    Count = dict[logged.HabitId]
+                });
+            }
+            return habitLog;
         }
     }
 }

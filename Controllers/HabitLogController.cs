@@ -24,7 +24,7 @@ namespace Well_Up_API.Controllers
 
         [Route("api/[controller]/User/{id}")]
         [HttpGet]
-        public Dictionary<string, int> GetLoggedHabits(int id)
+        public List<HabitLogDTO> GetLoggedHabits(int id)
         {
             return _habitLogService.GetLoggedHabits(id);
         }
