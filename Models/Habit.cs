@@ -10,5 +10,6 @@ namespace Well_Up_API.Models
         public int HabitId { get; set; }
         public string? HabitName { get; set; }
         public ICollection<HabitLog>? HabitLogs { get; set; }
+        public ICollection<UserHabit> UserHabits { get; set; }
     }
 }

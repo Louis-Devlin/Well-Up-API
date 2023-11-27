@@ -33,6 +33,7 @@ builder.Services.AddScoped<MoodService>();
 builder.Services.AddScoped<MoodLogService>();
 builder.Services.AddScoped<HabitService>();
 builder.Services.AddScoped<HabitLogService>();
+builder.Services.AddScoped<UserHabit>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
