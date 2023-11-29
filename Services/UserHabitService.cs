@@ -11,10 +11,19 @@ namespace Well_Up_API.Services
         {
             _context = context;
         }
-        public List<Habit> GetUserHabits(int userId)
+        public List<HabitLogDTO> GetUserHabits(int userId)
         {
             var habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
-            return _context.Habit.Where(h => habits.Contains(h.HabitId)).ToList();
+            Dictionary<int, int> habitDictionary = habits.ToDictionary(habitId => habitId, _ => 0);
+            var logged = _context.HabitLog.Where(x => x.UserId == userId && habits.Contains(x.HabitId));
+            foreach (var habit in logged.Select(h => h.HabitId))
+            {
+                if (habitDictionary.ContainsKey(habit))
+                {
+                    habitDictionary[habit]++;
+                }
+            }
+            return PrepareResponse(habitDictionary);
         }
         public int StartTrackingHabit(UserHabitRequest userHabit)
         {
@@ -58,6 +67,22 @@ namespace Well_Up_API.Services
             _context.UserHabit.Add(userHabit);
             _context.SaveChanges();
             return userHabit.UserHabitId;
+        }
+        public List<HabitLogDTO> PrepareResponse(Dictionary<int, int> dict)
+        {
+            List<HabitLogDTO> habitLog = new List<HabitLogDTO>();
+            var keys = dict.Keys.ToList();
+            var loggedHabits = _context.Habit.Where(h => keys.Contains(h.HabitId));
+            foreach (var logged in loggedHabits)
+            {
+                habitLog.Add(new HabitLogDTO()
+                {
+                    HabitId = logged.HabitId,
+                    HabitName = logged.HabitName,
+                    Count = dict[logged.HabitId]
+                });
+            }
+            return habitLog;
         }
     }
 }

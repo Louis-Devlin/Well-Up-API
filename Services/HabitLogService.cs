@@ -44,7 +44,7 @@ namespace Well_Up_API.Services
             {
                 habitLog.Add(new HabitLogDTO()
                 {
-                    HabbitId = logged.HabitId,
+                    HabitId = logged.HabitId,
                     HabitName = logged.HabitName,
                     Count = dict[logged.HabitId]
                 });

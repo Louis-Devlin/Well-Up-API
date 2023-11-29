@@ -13,7 +13,7 @@ namespace Well_Up_API.Controllers
         public UserHabitController(UserHabitService userHabitService) => _userHabitService = userHabitService;
 
         [HttpGet("{id}", Name = "GetHabitsByUser")]
-        public List<Habit> GetHabitsByUser(int id)
+        public List<HabitLogDTO> GetHabitsByUser(int id)
         {
             return _userHabitService.GetUserHabits(id);
         }
