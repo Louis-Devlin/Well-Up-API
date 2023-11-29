@@ -34,18 +34,24 @@ namespace Well_Up_API.Services
                     HabitName = userHabit.HabitName
                 };
                 _context.Habit.Add(newHabit);
+                _context.SaveChanges();
                 id = TrackHabit(new UserHabit()
                 {
                     UserId = userHabit.UserId,
-                    HabitId = userHabit.HabitId
+                    HabitId = newHabit.HabitId
                 });
             }
             return id;
         }
         public void StopTrackingHabit(int userId, int habitId)
         {
-            _context.UserHabit.Where(x => x.UserId == userId && x.HabitId == habitId);
-            _context.SaveChanges();
+            var habbit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
+            if (habbit != null)
+            {
+                _context.UserHabit.Remove(habbit);
+                _context.SaveChanges();
+            }
+
         }
         private int TrackHabit(UserHabit userHabit)
         {

@@ -12,7 +12,7 @@ namespace Well_Up_API.Controllers
 
         public UserHabitController(UserHabitService userHabitService) => _userHabitService = userHabitService;
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetHabitsByUser")]
         public List<Habit> GetHabitsByUser(int id)
         {
             return _userHabitService.GetUserHabits(id);
@@ -20,8 +20,8 @@ namespace Well_Up_API.Controllers
         [HttpPost]
         public IActionResult StartTrackingHabit([FromBody] UserHabitRequest userHabit)
         {
-            int userHabbitId = _userHabitService.StartTrackingHabit(userHabit);
-            return CreatedAtAction(nameof(GetHabitsByUser), new { id = userHabbitId });
+            int userHabitId = _userHabitService.StartTrackingHabit(userHabit);
+            return CreatedAtAction("GetHabitsByUser", new { id = userHabitId }, null);
         }
 
         [HttpDelete]
