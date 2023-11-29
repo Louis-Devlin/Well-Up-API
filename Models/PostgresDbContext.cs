@@ -28,11 +28,9 @@ namespace Well_Up_API.Models
             modelBuilder.Entity<HabitLog>().HasOne(ml => ml.Habit).WithMany(m => m.HabitLogs).HasForeignKey(ml => ml.HabitId);
             modelBuilder.Entity<HabitLog>().HasOne(ml => ml.User).WithMany(m => m.HabitLogs).HasForeignKey(ml => ml.UserId);
 
-            modelBuilder.Entity<UserHabit>().HasKey(ml => new { ml.UserHabitId, ml.UserId, ml.HabitId });
+            modelBuilder.Entity<UserHabit>().HasKey(ml => ml.UserHabitId);
             modelBuilder.Entity<UserHabit>().HasOne(ml => ml.User).WithMany(m => m.UserHabits).HasForeignKey(ml => ml.UserId);
             modelBuilder.Entity<UserHabit>().HasOne(ml => ml.Habit).WithMany(m => m.UserHabits).HasForeignKey(ml => ml.HabitId);
-
-
         }
     }
 }
