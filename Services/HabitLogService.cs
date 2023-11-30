@@ -10,22 +10,9 @@ namespace Well_Up_API.Services
             _context = context;
         }
 
-        public List<HabitLogDTO> GetLoggedHabits(int userId)
+        public List<HabitLog> GetLoggedHabits(int userId)
         {
-            var habits = _context.HabitLog.Where(h => h.UserId == userId).ToList();
-            Dictionary<int, int> habitLog = new Dictionary<int, int>();
-            foreach (var habit in habits.Select(h => h.HabitId))
-            {
-                if (habitLog.ContainsKey(habit))
-                {
-                    habitLog[habit]++;
-                }
-                else
-                {
-                    habitLog[habit] = 1;
-                }
-            }
-            return PrepareResponse(habitLog);
+            return _context.HabitLog.Where(x => x.UserId == userId).ToList();
         }
 
         public int LogHabit(HabitLog log)
@@ -33,23 +20,6 @@ namespace Well_Up_API.Services
             _context.HabitLog.Add(log);
             _context.SaveChanges();
             return log.HabitLogId;
-        }
-
-        public List<HabitLogDTO> PrepareResponse(Dictionary<int, int> dict)
-        {
-            List<HabitLogDTO> habitLog = new List<HabitLogDTO>();
-            var keys = dict.Keys.ToList();
-            var loggedHabits = _context.Habit.Where(h => keys.Contains(h.HabitId));
-            foreach (var logged in loggedHabits)
-            {
-                habitLog.Add(new HabitLogDTO()
-                {
-                    HabitId = logged.HabitId,
-                    HabitName = logged.HabitName,
-                    Count = dict[logged.HabitId]
-                });
-            }
-            return habitLog;
         }
     }
 }

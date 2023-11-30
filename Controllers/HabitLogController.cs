@@ -17,14 +17,14 @@ namespace Well_Up_API.Controllers
         }
 
         [HttpGet]
-        public List<HabitLogDTO> GetAll()
+        public List<HabitLog> GetAll()
         {
-            return new List<HabitLogDTO>();
+            return new List<HabitLog>();
         }
 
-        [Route("api/[controller]/User/{id}")]
+        [Route("api/[controller]/{id}")]
         [HttpGet]
-        public List<HabitLogDTO> GetLoggedHabits(int id)
+        public List<HabitLog> GetAllLoggedHabits(int id)
         {
             return _habitLogService.GetLoggedHabits(id);
         }
