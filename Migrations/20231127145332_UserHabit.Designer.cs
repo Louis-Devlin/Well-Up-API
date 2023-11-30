@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Well_Up_API.Models;
@@ -11,9 +12,11 @@ using Well_Up_API.Models;
 namespace Well_Up_API.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127145332_UserHabit")]
+    partial class UserHabit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,10 +142,7 @@ namespace Well_Up_API.Migrations
             modelBuilder.Entity("Well_Up_API.Models.UserHabit", b =>
                 {
                     b.Property<int>("UserHabitId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserHabitId"));
 
                     b.Property<int>("HabitId")
                         .HasColumnType("integer");
@@ -151,8 +151,6 @@ namespace Well_Up_API.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("UserHabitId");
-
-                    b.HasIndex("HabitId");
 
                     b.HasIndex("UserId");
 
@@ -201,7 +199,7 @@ namespace Well_Up_API.Migrations
                 {
                     b.HasOne("Well_Up_API.Models.Habit", "Habit")
                         .WithMany("UserHabits")
-                        .HasForeignKey("HabitId")
+                        .HasForeignKey("UserHabitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

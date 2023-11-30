@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Well_Up_API.Models
 {
-    public class Habit
+    public class UserHabit
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserHabitId { get; set; }
+        public int UserId { get; set; }
         public int HabitId { get; set; }
-        public string? HabitName { get; set; }
-        public ICollection<HabitLog>? HabitLogs { get; set; }
-        public ICollection<UserHabit> UserHabits { get; set; }
+        public User? User { get; set; }
+        public Habit? Habit { get; set; }
+
     }
 }
