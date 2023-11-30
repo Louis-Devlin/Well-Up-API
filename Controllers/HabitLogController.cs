@@ -22,8 +22,7 @@ namespace Well_Up_API.Controllers
             return new List<HabitLog>();
         }
 
-        [Route("api/[controller]/{id}")]
-        [HttpGet]
+        [HttpGet("{id}")]
         public List<HabitLog> GetAllLoggedHabits(int id)
         {
             return _habitLogService.GetLoggedHabits(id);

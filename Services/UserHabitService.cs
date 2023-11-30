@@ -16,7 +16,7 @@ namespace Well_Up_API.Services
         {
             var habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
             Dictionary<int, int> habitDictionary = habits.ToDictionary(habitId => habitId, _ => 0);
-            var logged = _context.HabitLog.Where(x => x.UserId == userId && habits.Contains(x.HabitId) && date.ToShortDateString() == x.Date.ToShortDateString());
+            var logged = _context.HabitLog.Where(x => x.UserId == userId && habits.Contains(x.HabitId) && x.Date.Date == date.Date);
 
             foreach (var habit in logged.Select(h => h.HabitId))
             {
@@ -25,6 +25,7 @@ namespace Well_Up_API.Services
                     habitDictionary[habit]++;
                 }
             }
+
             return PrepareResponse(habitDictionary);
         }
         public int StartTrackingHabit(UserHabitRequest userHabit)
