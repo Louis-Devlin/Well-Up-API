@@ -57,12 +57,16 @@ namespace Well_Up_API.Services
         }
         public void StopTrackingHabitAndDeleteAllLogs(int userId, int habitId)
         {
-            var habbit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
-            if (habbit != null)
+            var habit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
+            if (habit != null)
             {
-                _context.UserHabit.Remove(habbit);
+                _context.UserHabit.Remove(habit);
+                var loggedHabits = _context.HabitLog.Where(x => x.UserId == userId && x.HabitId == habitId);
+                foreach (var log in loggedHabits)
+                {
+                    _context.HabitLog.Remove(log);
+                }
                 _context.SaveChanges();
-                //Remove Habit Log
             }
 
         }
