@@ -55,15 +55,26 @@ namespace Well_Up_API.Services
             }
             return id;
         }
-        public void StopTrackingHabit(int userId, int habitId)
+        public void StopTrackingHabitAndDeleteAllLogs(int userId, int habitId)
         {
             var habbit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
             if (habbit != null)
             {
                 _context.UserHabit.Remove(habbit);
                 _context.SaveChanges();
+                //Remove Habit Log
             }
 
+        }
+
+        public void StopTrackingHabit(int habitTrackId)
+        {
+            var userHabit = _context.UserHabit.Where(x => x.UserHabitId == habitTrackId).FirstOrDefault();
+            if (userHabit != null)
+            {
+                userHabit.Active = false;
+                _context.SaveChanges();
+            }
         }
         private int TrackHabit(UserHabit userHabit)
         {
@@ -71,7 +82,7 @@ namespace Well_Up_API.Services
             _context.SaveChanges();
             return userHabit.UserHabitId;
         }
-        public List<UserHabitDTO> PrepareResponse(Dictionary<int, int> dict)
+        private List<UserHabitDTO> PrepareResponse(Dictionary<int, int> dict)
         {
             List<UserHabitDTO> habitLog = new List<UserHabitDTO>();
             var keys = dict.Keys.ToList();
