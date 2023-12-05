@@ -13,5 +13,7 @@ namespace Well_Up_API.Models
         public User? User { get; set; }
         public Habit? Habit { get; set; }
 
+        public bool Active { get; set; } = true;
+
     }
 }
