@@ -12,10 +12,10 @@ namespace Well_Up_API.Controllers
 
         public UserHabitController(UserHabitService userHabitService) => _userHabitService = userHabitService;
 
-        [HttpGet("{id}", Name = "GetHabitsByUser")]
-        public List<HabitLogDTO> GetHabitsByUser(int id)
+        [HttpGet(Name = "GetHabitsByUser")]
+        public List<UserHabitDTO> GetHabitsByUser(int id,DateTime date)
         {
-            return _userHabitService.GetUserHabits(id);
+            return _userHabitService.GetUserHabitsByDate(id,date);
         }
         [HttpPost]
         public IActionResult StartTrackingHabit([FromBody] UserHabitRequest userHabit)
