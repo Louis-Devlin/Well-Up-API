@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Well_Up_API.Models;
@@ -11,9 +12,11 @@ using Well_Up_API.Models;
 namespace Well_Up_API.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120162931_HabitTracking")]
+    partial class HabitTracking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,42 +25,42 @@ namespace Well_Up_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Well_Up_API.Models.Habit", b =>
+            modelBuilder.Entity("Well_Up_API.Models.Habbit", b =>
                 {
-                    b.Property<int>("HabitId")
+                    b.Property<int>("HabbitId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HabitId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HabbitId"));
 
-                    b.Property<string>("HabitName")
+                    b.Property<string>("HabbitName")
                         .HasColumnType("text");
 
-                    b.HasKey("HabitId");
+                    b.HasKey("HabbitId");
 
-                    b.ToTable("Habit");
+                    b.ToTable("Habbit");
                 });
 
             modelBuilder.Entity("Well_Up_API.Models.HabitLog", b =>
                 {
-                    b.Property<int>("HabitLogId")
+                    b.Property<int>("HabbitLogId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HabitLogId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("HabbitLogId"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("HabitId")
+                    b.Property<int>("HabbitId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("HabitLogId");
+                    b.HasKey("HabbitLogId");
 
-                    b.HasIndex("HabitId");
+                    b.HasIndex("HabbitId");
 
                     b.HasIndex("UserId");
 
@@ -136,37 +139,11 @@ namespace Well_Up_API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Well_Up_API.Models.UserHabit", b =>
-                {
-                    b.Property<int>("UserHabitId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserHabitId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("HabitId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserHabitId");
-
-                    b.HasIndex("HabitId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserHabit");
-                });
-
             modelBuilder.Entity("Well_Up_API.Models.HabitLog", b =>
                 {
-                    b.HasOne("Well_Up_API.Models.Habit", "Habit")
-                        .WithMany("HabitLogs")
-                        .HasForeignKey("HabitId")
+                    b.HasOne("Well_Up_API.Models.Habbit", "Habbit")
+                        .WithMany("HabbitLogs")
+                        .HasForeignKey("HabbitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -176,7 +153,7 @@ namespace Well_Up_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Habit");
+                    b.Navigation("Habbit");
 
                     b.Navigation("User");
                 });
@@ -200,30 +177,9 @@ namespace Well_Up_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Well_Up_API.Models.UserHabit", b =>
+            modelBuilder.Entity("Well_Up_API.Models.Habbit", b =>
                 {
-                    b.HasOne("Well_Up_API.Models.Habit", "Habit")
-                        .WithMany("UserHabits")
-                        .HasForeignKey("HabitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Well_Up_API.Models.User", "User")
-                        .WithMany("UserHabits")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Habit");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Well_Up_API.Models.Habit", b =>
-                {
-                    b.Navigation("HabitLogs");
-
-                    b.Navigation("UserHabits");
+                    b.Navigation("HabbitLogs");
                 });
 
             modelBuilder.Entity("Well_Up_API.Models.Mood", b =>
@@ -236,8 +192,6 @@ namespace Well_Up_API.Migrations
                     b.Navigation("HabitLogs");
 
                     b.Navigation("MoodLogs");
-
-                    b.Navigation("UserHabits");
                 });
 #pragma warning restore 612, 618
         }

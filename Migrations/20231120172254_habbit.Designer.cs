@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Well_Up_API.Models;
@@ -11,9 +12,11 @@ using Well_Up_API.Models;
 namespace Well_Up_API.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120172254_habbit")]
+    partial class habbit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -136,32 +139,6 @@ namespace Well_Up_API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Well_Up_API.Models.UserHabit", b =>
-                {
-                    b.Property<int>("UserHabitId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserHabitId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("HabitId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserHabitId");
-
-                    b.HasIndex("HabitId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserHabit");
-                });
-
             modelBuilder.Entity("Well_Up_API.Models.HabitLog", b =>
                 {
                     b.HasOne("Well_Up_API.Models.Habit", "Habit")
@@ -200,30 +177,9 @@ namespace Well_Up_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Well_Up_API.Models.UserHabit", b =>
-                {
-                    b.HasOne("Well_Up_API.Models.Habit", "Habit")
-                        .WithMany("UserHabits")
-                        .HasForeignKey("HabitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Well_Up_API.Models.User", "User")
-                        .WithMany("UserHabits")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Habit");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Well_Up_API.Models.Habit", b =>
                 {
                     b.Navigation("HabitLogs");
-
-                    b.Navigation("UserHabits");
                 });
 
             modelBuilder.Entity("Well_Up_API.Models.Mood", b =>
@@ -236,8 +192,6 @@ namespace Well_Up_API.Migrations
                     b.Navigation("HabitLogs");
 
                     b.Navigation("MoodLogs");
-
-                    b.Navigation("UserHabits");
                 });
 #pragma warning restore 612, 618
         }
