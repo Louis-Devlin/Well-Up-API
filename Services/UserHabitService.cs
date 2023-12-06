@@ -12,9 +12,17 @@ namespace Well_Up_API.Services
             _context = context;
         }
 
-        public List<UserHabitDTO> GetUserHabitsByDate(int userId, DateTime date)
+        public List<UserHabitDTO> GetUserHabitsByDate(int userId, DateTime date, bool active)
         {
-            var habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
+            var habits = new List<int>();
+            if (active)
+            {
+                habits = _context.UserHabit.Where(x => x.UserId == userId && x.Active).Select(o => o.HabitId).ToList();
+            }
+            else
+            {
+                habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
+            }
             Dictionary<int, int> habitDictionary = habits.ToDictionary(habitId => habitId, _ => 0);
             var logged = _context.HabitLog.Where(x => x.UserId == userId && habits.Contains(x.HabitId) && x.Date.Date == date.Date);
 
@@ -55,15 +63,30 @@ namespace Well_Up_API.Services
             }
             return id;
         }
-        public void StopTrackingHabit(int userId, int habitId)
+        public void StopTrackingHabitAndDeleteAllLogs(int userId, int habitId)
         {
-            var habbit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
-            if (habbit != null)
+            var habit = _context.UserHabit.FirstOrDefault(x => x.UserId == userId && x.HabitId == habitId);
+            if (habit != null)
             {
-                _context.UserHabit.Remove(habbit);
+                _context.UserHabit.Remove(habit);
+                var loggedHabits = _context.HabitLog.Where(x => x.UserId == userId && x.HabitId == habitId);
+                foreach (var log in loggedHabits)
+                {
+                    _context.HabitLog.Remove(log);
+                }
                 _context.SaveChanges();
             }
 
+        }
+
+        public void StopTrackingHabit(int userId, int habitId)
+        {
+            var userHabit = _context.UserHabit.Where(x => x.UserId == userId && x.HabitId == habitId).FirstOrDefault();
+            if (userHabit != null)
+            {
+                userHabit.Active = false;
+                _context.SaveChanges();
+            }
         }
         private int TrackHabit(UserHabit userHabit)
         {
@@ -71,7 +94,7 @@ namespace Well_Up_API.Services
             _context.SaveChanges();
             return userHabit.UserHabitId;
         }
-        public List<UserHabitDTO> PrepareResponse(Dictionary<int, int> dict)
+        private List<UserHabitDTO> PrepareResponse(Dictionary<int, int> dict)
         {
             List<UserHabitDTO> habitLog = new List<UserHabitDTO>();
             var keys = dict.Keys.ToList();
