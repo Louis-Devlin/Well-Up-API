@@ -13,9 +13,9 @@ namespace Well_Up_API.Controllers
         public UserHabitController(UserHabitService userHabitService) => _userHabitService = userHabitService;
 
         [HttpGet(Name = "GetHabitsByUser")]
-        public List<UserHabitDTO> GetHabitsByUser(int id, DateTime date)
+        public List<UserHabitDTO> GetHabitsByUser(int id, DateTime date, bool active)
         {
-            return _userHabitService.GetUserHabitsByDate(id, date);
+            return _userHabitService.GetUserHabitsByDate(id, date, active);
         }
         [HttpPost]
         public IActionResult StartTrackingHabit([FromBody] UserHabitRequest userHabit)
@@ -31,11 +31,10 @@ namespace Well_Up_API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{habitTrackId}")]
-
-        public IActionResult StopTrackingHabit(int habitTrackId)
+        [HttpPut]
+        public IActionResult StopTrackingHabit(int userId, int habitId)
         {
-            _userHabitService.StopTrackingHabit(habitTrackId);
+            _userHabitService.StopTrackingHabit(userId, habitId);
             return NoContent();
         }
     }

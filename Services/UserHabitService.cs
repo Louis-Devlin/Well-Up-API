@@ -12,9 +12,17 @@ namespace Well_Up_API.Services
             _context = context;
         }
 
-        public List<UserHabitDTO> GetUserHabitsByDate(int userId, DateTime date)
+        public List<UserHabitDTO> GetUserHabitsByDate(int userId, DateTime date, bool active)
         {
-            var habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
+            var habits = new List<int>();
+            if (active)
+            {
+                habits = _context.UserHabit.Where(x => x.UserId == userId && x.Active).Select(o => o.HabitId).ToList();
+            }
+            else
+            {
+                habits = _context.UserHabit.Where(x => x.UserId == userId).Select(o => o.HabitId).ToList();
+            }
             Dictionary<int, int> habitDictionary = habits.ToDictionary(habitId => habitId, _ => 0);
             var logged = _context.HabitLog.Where(x => x.UserId == userId && habits.Contains(x.HabitId) && x.Date.Date == date.Date);
 
@@ -71,9 +79,9 @@ namespace Well_Up_API.Services
 
         }
 
-        public void StopTrackingHabit(int habitTrackId)
+        public void StopTrackingHabit(int userId, int habitId)
         {
-            var userHabit = _context.UserHabit.Where(x => x.UserHabitId == habitTrackId).FirstOrDefault();
+            var userHabit = _context.UserHabit.Where(x => x.UserId == userId && x.HabitId == habitId).FirstOrDefault();
             if (userHabit != null)
             {
                 userHabit.Active = false;
