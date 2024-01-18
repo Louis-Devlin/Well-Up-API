@@ -63,21 +63,9 @@ namespace Well_Up_API.Services
             }
             foreach (var item in send)
             {
-                switch (item.Color)
+                if (totals.ContainsKey(item.Color))
                 {
-                    case "red":
-                        totals["red"]++;
-                        break;
-                    case "yellow":
-                        totals["yellow"]++;
-                        break;
-
-                    case "blue":
-                        totals["blue"]++;
-                        break;
-                    case "green":
-                        totals["green"]++;
-                        break;
+                    totals[item.Color]++;
                 }
             }
             return totals;
