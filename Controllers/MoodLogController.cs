@@ -41,5 +41,11 @@ namespace Well_Up_API.Controllers
         {
             return _moodLogService.GetByUser(id);
         }
+        [Route("totals/{id}")]
+        [HttpGet]
+        public Dictionary<string, int> GetWeeklyTotals(int id)
+        {
+            return _moodLogService.GetWeeklyTotals(id);
+        }
     }
 }
