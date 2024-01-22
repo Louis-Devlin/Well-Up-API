@@ -34,5 +34,12 @@ namespace Well_Up_API.Controllers
             int habitId = _habitLogService.LogHabit(completedHabit);
             return CreatedAtAction(nameof(GetAll), new { id = habitId });
         }
+        [Route("totals/{id}")]
+        [HttpGet]
+        public Dictionary<string, int> GetWeeklyTotals(int id)
+        {
+            return _habitLogService.GetWeeklyTotals(id);
+        }
+
     }
 }
