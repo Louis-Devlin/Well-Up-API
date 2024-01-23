@@ -70,6 +70,40 @@ namespace Well_Up_API.Services
             }
             return totals;
         }
+
+        public Dictionary<string, int> GetTotalsByDay(int userId, DateTime date)
+        {
+
+            Console.WriteLine(userId);
+            Console.WriteLine(date);
+            Dictionary<string, int> totals = new Dictionary<string, int>(){
+                {"red", 0},
+                {"yellow", 0},
+                {"blue", 0},
+                {"green", 0}
+            };
+            var log = _context.MoodLog.Where(m => m.UserId == userId && m.Date.Date == date.Date).ToList();
+            List<MoodLogResponse> moods = new List<MoodLogResponse>();
+            foreach (var entry in log)
+            {
+                var mood = _context.Mood.Where(m => m.MoodId == entry.MoodId).First();
+                moods.Add(new MoodLogResponse()
+                {
+                    MoodName = mood.MoodName,
+                    Date = entry.Date,
+                    Color = GetColor(mood.PositionX, mood.PositionY)
+                });
+
+            }
+            foreach (var item in moods)
+            {
+                if (totals.ContainsKey(item.Color))
+                {
+                    totals[item.Color]++;
+                }
+            }
+            return totals;
+        }
         private string GetColor(int x, int y)
         {
             if (x >= 5)
