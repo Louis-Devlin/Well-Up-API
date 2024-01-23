@@ -71,17 +71,12 @@ namespace Well_Up_API.Services
             return totals;
         }
 
-        public Dictionary<string, int> GetTotalsByDay(int userId, DateTime date)
+        public List<MoodLogCountResponse> GetTotalsByDay(int userId, DateTime date)
         {
 
             Console.WriteLine(userId);
             Console.WriteLine(date);
-            Dictionary<string, int> totals = new Dictionary<string, int>(){
-                {"red", 0},
-                {"yellow", 0},
-                {"blue", 0},
-                {"green", 0}
-            };
+            List<MoodLogCountResponse> totals = new List<MoodLogCountResponse>();
             var log = _context.MoodLog.Where(m => m.UserId == userId && m.Date.Date == date.Date).ToList();
             List<MoodLogResponse> moods = new List<MoodLogResponse>();
             foreach (var entry in log)
@@ -95,13 +90,23 @@ namespace Well_Up_API.Services
                 });
 
             }
-            foreach (var item in moods)
-            {
-                if (totals.ContainsKey(item.Color))
+            foreach (var item in moods){
+                var mood = totals.FirstOrDefault(m => m.MoodName == item.MoodName);
+                if (mood != null)
                 {
-                    totals[item.Color]++;
+                    mood.Count++;
+                }
+                else
+                {
+                    totals.Add(new MoodLogCountResponse()
+                    {
+                        MoodName = item.MoodName,
+                        Count = 1,
+                        Colour = item.Color
+                    });
                 }
             }
+          
             return totals;
         }
         private string GetColor(int x, int y)

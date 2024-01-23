@@ -50,7 +50,7 @@ namespace Well_Up_API.Controllers
 
         [Route("totals/{id}/{date}")]
         [HttpGet]
-        public Dictionary<string, int> GetTotalsByDay(int id, DateTime date)
+        public List<MoodLogCountResponse> GetTotalsByDay(int id, DateTime date)
         {
             return _moodLogService.GetTotalsByDay(id, date);
         }
