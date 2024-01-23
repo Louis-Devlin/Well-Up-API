@@ -38,40 +38,40 @@ namespace Well_Up_API.Services
 
             foreach (var date in allDates)
             {
-                List<MoodLogResponse> moodLogResponse;
+                List<MoodLogCountResponse> moodLogResponse;
                 if (groupedMoodLog.ContainsKey(date))
                 {
-                    var moodIds = groupedMoodLog[date].Select(m => m.MoodId).ToList();
+                    var moodIds = groupedMoodLog[date].Select(m => m.MoodId).Distinct().ToList();
                     var moods = _context.Mood.Where(m => moodIds.Contains(m.MoodId)).ToList();
 
-                    moodLogResponse = groupedMoodLog[date].Select(m =>
-                   {
-                       var mood = moods.First(mood => mood.MoodId == m.MoodId);
-                       if (mood == null)
-                       {
-                           return null;
-                       }
-                       return new MoodLogResponse()
-                       {
-                           MoodName = mood.MoodName,
-                           Date = m.Date,
-                           Color = GetColor(mood.PositionX, mood.PositionY)
-                       };
-                   }).Where(m => m != null).ToList();
+                    moodLogResponse = moods.Select(m => new MoodLogCountResponse
+                    {
+                        MoodName = m.MoodName,
+                        Colour = GetColor(m.PositionX, m.PositionY),
+                        Count = groupedMoodLog[date].Count(mood => mood.MoodId == m.MoodId)
+                    }).ToList();
                 }
                 else
                 {
-                    moodLogResponse = new List<MoodLogResponse>();
+                    moodLogResponse = new List<MoodLogCountResponse>();
                 }
-                List<HabitLog> habitLogResponse;
+                List<UserHabitDTO> habitLogResponse;
 
                 if (groupedHabitLog.ContainsKey(date))
                 {
-                    habitLogResponse = groupedHabitLog[date];
+                    habitLogResponse = groupedHabitLog[date]
+                        .GroupBy(h => h.HabitId)
+                        .Select(group => new UserHabitDTO
+                        {
+                            HabitId = group.Key,
+                            HabitName = _context.Habit.Where(habit => habit.HabitId == group.Key).First().HabitName,
+                            Count = group.Count()
+                        })
+                        .ToList();
                 }
                 else
                 {
-                    habitLogResponse = new List<HabitLog>();
+                    habitLogResponse = new List<UserHabitDTO>();
                 }
                 userLog.Add(new UserLogResponse
                 {
