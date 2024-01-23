@@ -47,5 +47,12 @@ namespace Well_Up_API.Controllers
         {
             return _moodLogService.GetWeeklyTotals(id);
         }
+
+        [Route("totals/{id}/{date}")]
+        [HttpGet]
+        public List<MoodLogCountResponse> GetTotalsByDay(int id, DateTime date)
+        {
+            return _moodLogService.GetTotalsByDay(id, date);
+        }
     }
 }

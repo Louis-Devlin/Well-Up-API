@@ -70,6 +70,45 @@ namespace Well_Up_API.Services
             }
             return totals;
         }
+
+        public List<MoodLogCountResponse> GetTotalsByDay(int userId, DateTime date)
+        {
+
+            Console.WriteLine(userId);
+            Console.WriteLine(date);
+            List<MoodLogCountResponse> totals = new List<MoodLogCountResponse>();
+            var log = _context.MoodLog.Where(m => m.UserId == userId && m.Date.Date == date.Date).ToList();
+            List<MoodLogResponse> moods = new List<MoodLogResponse>();
+            foreach (var entry in log)
+            {
+                var mood = _context.Mood.Where(m => m.MoodId == entry.MoodId).First();
+                moods.Add(new MoodLogResponse()
+                {
+                    MoodName = mood.MoodName,
+                    Date = entry.Date,
+                    Color = GetColor(mood.PositionX, mood.PositionY)
+                });
+
+            }
+            foreach (var item in moods){
+                var mood = totals.FirstOrDefault(m => m.MoodName == item.MoodName);
+                if (mood != null)
+                {
+                    mood.Count++;
+                }
+                else
+                {
+                    totals.Add(new MoodLogCountResponse()
+                    {
+                        MoodName = item.MoodName,
+                        Count = 1,
+                        Colour = item.Color
+                    });
+                }
+            }
+          
+            return totals;
+        }
         private string GetColor(int x, int y)
         {
             if (x >= 5)
