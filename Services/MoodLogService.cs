@@ -24,21 +24,66 @@ namespace Well_Up_API.Services
         {
             return _context.MoodLog.Where(m => m.MoodLogId == id).First();
         }
-        public List<MoodLogResponse> GetByUser(int id)
+        public List<UserLogResponse> GetByUser(int id)
         {
-            var list = _context.MoodLog.Where(m => m.UserId == id).ToList();
-            List<MoodLogResponse> send = new List<MoodLogResponse>();
-            foreach (var item in list)
+            var moodLog = _context.MoodLog.Where(m => m.UserId == id).ToList();
+            var habitLogs = _context.HabitLog.Where(h => h.UserId == id).ToList();
+
+            var groupedMoodLog = moodLog.GroupBy(m => m.Date.Date).ToDictionary(g => g.Key, g => g.ToList());
+            var groupedHabitLog = habitLogs.GroupBy(h => h.Date.Date).ToDictionary(g => g.Key, g => g.ToList());
+
+            var userLog = new List<UserLogResponse>();
+
+            var allDates = new HashSet<DateTime>(groupedMoodLog.Keys.Union(groupedHabitLog.Keys));
+
+            foreach (var date in allDates)
             {
-                var mood = _context.Mood.Where(m => m.MoodId == item.MoodId).First();
-                send.Add(new MoodLogResponse()
+                List<MoodLogResponse> moodLogResponse;
+                if (groupedMoodLog.ContainsKey(date))
                 {
-                    MoodName = mood.MoodName,
-                    Date = item.Date,
-                    Color = GetColor(mood.PositionX, mood.PositionY)
+                    var moodIds = groupedMoodLog[date].Select(m => m.MoodId).ToList();
+                    var moods = _context.Mood.Where(m => moodIds.Contains(m.MoodId)).ToList();
+
+                    moodLogResponse = groupedMoodLog[date].Select(m =>
+                   {
+                       var mood = moods.First(mood => mood.MoodId == m.MoodId);
+                       if (mood == null)
+                       {
+                           return null;
+                       }
+                       return new MoodLogResponse()
+                       {
+                           MoodName = mood.MoodName,
+                           Date = m.Date,
+                           Color = GetColor(mood.PositionX, mood.PositionY)
+                       };
+                   }).Where(m => m != null).ToList();
+                }
+                else
+                {
+                    moodLogResponse = new List<MoodLogResponse>();
+                }
+                List<HabitLog> habitLogResponse;
+
+                if (groupedHabitLog.ContainsKey(date))
+                {
+                    habitLogResponse = groupedHabitLog[date];
+                }
+                else
+                {
+                    habitLogResponse = new List<HabitLog>();
+                }
+                userLog.Add(new UserLogResponse
+                {
+                    Date = date,
+                    Data = new UserLogDataResponse
+                    {
+                        MoodLog = moodLogResponse,
+                        HabitLog = habitLogResponse
+                    }
                 });
             }
-            return send;
+            return userLog;
         }
         public Dictionary<string, int> GetWeeklyTotals(int userId)
         {
@@ -90,7 +135,8 @@ namespace Well_Up_API.Services
                 });
 
             }
-            foreach (var item in moods){
+            foreach (var item in moods)
+            {
                 var mood = totals.FirstOrDefault(m => m.MoodName == item.MoodName);
                 if (mood != null)
                 {
@@ -106,7 +152,7 @@ namespace Well_Up_API.Services
                     });
                 }
             }
-          
+
             return totals;
         }
         private string GetColor(int x, int y)
