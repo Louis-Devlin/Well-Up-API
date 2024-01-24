@@ -1,0 +1,28 @@
+using Well_Up_API.Models;
+namespace Well_Up_API.Services
+{
+    public class UserService
+    {
+        private readonly PostgresDbContext _context;
+
+        public UserService(PostgresDbContext context)
+        {
+            _context = context;
+        }
+        public int Register(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user.UserId;
+        }
+        public User Login(User user)
+        {
+            var userResponse = _context.Users.Find(user.UserId);
+            if (userResponse == null)
+            {
+                return null;
+            }
+            return userResponse;
+        }
+    }
+}
