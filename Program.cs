@@ -34,6 +34,7 @@ builder.Services.AddScoped<MoodLogService>();
 builder.Services.AddScoped<HabitService>();
 builder.Services.AddScoped<HabitLogService>();
 builder.Services.AddScoped<UserHabitService>();
+builder.Services.AddScoped<UserService>();
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
