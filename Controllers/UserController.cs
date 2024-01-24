@@ -26,6 +26,11 @@ namespace Well_Up_API.Controllers
             };
             var id = _userService.Register(newUser);
 
+            if (id == -1)
+            {
+                return Conflict();
+            }
+
             return CreatedAtAction(nameof(Register), id);
         }
         [HttpPost]

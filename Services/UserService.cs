@@ -11,6 +11,12 @@ namespace Well_Up_API.Services
         }
         public int Register(User user)
         {
+            var existingUser = _context.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+            if (existingUser != null)
+            {
+                return -1;
+            }
+
             _context.Users.Add(user);
             _context.SaveChanges();
             return user.UserId;
