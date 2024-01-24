@@ -30,9 +30,15 @@ namespace Well_Up_API.Controllers
         }
         [HttpPost]
         [Route("login")]
-        public IActionResult Login([FromBody] User user)
+        public IActionResult Login([FromBody] UserRequest user)
         {
-            var userResponse = _userService.Login(user);
+            var details = new User()
+            {
+                Email = user.Email,
+                Password = user.Password
+            };
+
+            var userResponse = _userService.Login(details);
             if (userResponse == null)
             {
                 return NotFound();

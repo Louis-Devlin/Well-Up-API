@@ -17,7 +17,7 @@ namespace Well_Up_API.Services
         }
         public User Login(User user)
         {
-            var userResponse = _context.Users.Find(user.UserId);
+            var userResponse = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
             if (userResponse == null)
             {
                 return null;
