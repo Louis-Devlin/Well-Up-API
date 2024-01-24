@@ -30,5 +30,34 @@ namespace Well_Up_API.Services
             }
             return userResponse;
         }
+
+        public bool Update(int userId, UserRequest user)
+        {
+            var existingUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
+            if (existingUser == null || existingUser.Password != user.Password)
+            {
+                return false;
+            }
+            if (existingUser.Name != user.Name)
+            {
+                existingUser.Name = user.Name;
+            }
+            if (user.NewPassword != null)
+            {
+                existingUser.Password = user.NewPassword;
+            }
+            _context.SaveChanges();
+            return true;
+        }
+        public bool Delete (int userId){
+            var existingUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
+            if (existingUser == null)
+            {
+                return false;
+            }
+            _context.Users.Remove(existingUser);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

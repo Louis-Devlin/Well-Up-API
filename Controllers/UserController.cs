@@ -50,5 +50,36 @@ namespace Well_Up_API.Controllers
             }
             return Ok(userResponse);
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update(int id, [FromBody] UserRequest user)
+        {
+            var result = _userService.Update(id, user);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _userService.Delete(id);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }
