@@ -17,13 +17,21 @@ namespace Well_Up_API.Services
         {
             return _context.Mood.ToList();
         }
-        public List<Mood> GetMoodGroup(int value)
+        public List<Mood> GetMoodGroup(string value)
         {
-            if (value == 0)
+            switch (value)
             {
-                return _context.Mood.Where(y => y.PositionY == value).ToList();
+                case "positive":
+                    return _context.Mood.Where(mood => mood.PositionY >= 7 && mood.PositionY <= 9).ToList();
+                case "negative":
+                    return _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
+                case "netural": // Neutral 
+                    return _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
+                default:
+                    return _context.Mood.ToList();
+
             }
-            return _context.Mood.Where(y => y.PositionY == value - 1).ToList();
+
         }
         public void PopulateMood()
         {

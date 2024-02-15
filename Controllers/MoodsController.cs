@@ -13,24 +13,19 @@ namespace Well_Up_API.Controllers
 
         public MoodsController(MoodService moodService) => _moodService = moodService;
 
-        [HttpGet]
-        public List<Mood> GetMoods()
-        {
-            return _moodService.GetMoods();
-        }
 
-        [HttpGet("{value}")]
-        public List<Mood> GetByGroup(int value)
+
+        [HttpGet]
+        public List<Mood> GetByGroup([FromQuery] string sentiment = "")
         {
-            Console.WriteLine($"Value is {value}");
-            return _moodService.GetMoodGroup(value);
+            return _moodService.GetMoodGroup(sentiment);
         }
 
         [HttpPost]
         public IActionResult PopulateDB()
         {
             _moodService.PopulateMood();
-            return CreatedAtAction(nameof(GetMoods), null);
+            return CreatedAtAction(nameof(GetByGroup), null);
         }
     }
 }
