@@ -12,6 +12,7 @@ namespace Well_Up_API.Controllers
             BaseAddress = new Uri("https://well-up-ml-mudo5ec2va-nw.a.run.app")
         };
         [HttpGet]
+        [Route("sentimentprediction")]
         public async Task<string> GetSentiment([FromQuery] string sentimentText)
         {
             using (var response = await client.GetAsync($"sentiment?message={sentimentText}"))
