@@ -28,7 +28,7 @@ namespace Well_Up_API.Services
                 case "negative":
                     moods = _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
                     break;
-                case "netural": // Neutral 
+                case "neutral": // Neutral 
                     moods = _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
                     break;
                 default:
