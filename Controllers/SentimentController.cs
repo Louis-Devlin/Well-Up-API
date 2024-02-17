@@ -1,5 +1,7 @@
+using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Well_Up_API.Models;
 
 namespace Well_Up_API.Controllers
 {
@@ -22,6 +24,17 @@ namespace Well_Up_API.Controllers
                 var jsonObject = JsonDocument.Parse(json).RootElement;
                 var propertyValue = jsonObject.GetProperty("predicted_sentiment").GetString();
                 return propertyValue;
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddSentiment([FromBody] SentimentRequest sentimentRequest)
+        {
+            using StringContent json = new(JsonSerializer.Serialize(sentimentRequest), Encoding.UTF8, "application/json");
+
+            using (var response = await client.PostAsync("sentiment", json))
+            {
+                response.EnsureSuccessStatusCode();
+                return Created("api/sentiment", "Sentiment added successfully!");
             }
         }
     }
