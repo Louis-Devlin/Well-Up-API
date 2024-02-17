@@ -19,19 +19,28 @@ namespace Well_Up_API.Services
         }
         public List<Mood> GetMoodGroup(string value)
         {
+            List<Mood> moods = new List<Mood>();
             switch (value)
             {
                 case "positive":
-                    return _context.Mood.Where(mood => mood.PositionY >= 7 && mood.PositionY <= 9).ToList();
+                    moods = _context.Mood.Where(mood => mood.PositionY >= 7 && mood.PositionY <= 9).ToList();
+                    break;
                 case "negative":
-                    return _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
+                    moods = _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
+                    break;
                 case "netural": // Neutral 
-                    return _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
+                    moods = _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
+                    break;
                 default:
-                    return _context.Mood.ToList();
+                    moods = _context.Mood.ToList();
+                    break;
 
             }
-
+            return SortMoodsByPositionY(moods);
+        }
+        public List<Mood> SortMoodsByPositionY(List<Mood> moods)
+        {
+            return moods.OrderBy(mood => mood.PositionY).ToList();
         }
         public void PopulateMood()
         {
