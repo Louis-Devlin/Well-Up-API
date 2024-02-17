@@ -26,10 +26,10 @@ namespace Well_Up_API.Services
                     moods = _context.Mood.Where(mood => mood.PositionY >= 7 && mood.PositionY <= 9).ToList();
                     break;
                 case "negative":
-                    moods = _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
+                    moods = _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
                     break;
                 case "neutral": // Neutral 
-                    moods = _context.Mood.Where(mood => mood.PositionY >= 0 && mood.PositionY <= 3).ToList();
+                    moods = _context.Mood.Where(mood => mood.PositionY >= 4 && mood.PositionY <= 6).ToList();
                     break;
                 default:
                     moods = _context.Mood.ToList();
