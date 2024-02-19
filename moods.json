@@ -98,5 +98,5 @@
   { "MoodName": "Complacent", "PositionX": 9, "PositionY": 6 },
   { "MoodName": "Tranquil", "PositionX": 9, "PositionY": 7 },
   { "MoodName": "Cozy", "PositionX": 9, "PositionY": 8 },
-  { "MoodName": "Serene", "PositionX": 10, "PositionY": 9 }
+  { "MoodName": "Serene", "PositionX": 9, "PositionY": 9 }
 ]
