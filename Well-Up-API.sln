@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1706.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well-Up-API", "Well-Up-API.csproj", "{48EE6AC3-7B1B-42C1-9287-D10D03136F5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Well-Up-API", "Well-Up-API\Well-Up-API.csproj", "{48EE6AC3-7B1B-42C1-9287-D10D03136F5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Well-Up-API.Tests", "Well-Up-API.Tests\Well-Up-API.Tests.csproj", "{BC947D25-97CD-4367-926A-8FF13313E311}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{48EE6AC3-7B1B-42C1-9287-D10D03136F5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EE6AC3-7B1B-42C1-9287-D10D03136F5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EE6AC3-7B1B-42C1-9287-D10D03136F5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC947D25-97CD-4367-926A-8FF13313E311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC947D25-97CD-4367-926A-8FF13313E311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC947D25-97CD-4367-926A-8FF13313E311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC947D25-97CD-4367-926A-8FF13313E311}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
