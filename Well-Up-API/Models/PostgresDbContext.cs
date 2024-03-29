@@ -5,16 +5,17 @@ namespace Well_Up_API.Models
     public class PostgresDbContext : DbContext
     {
         public PostgresDbContext(DbContextOptions<PostgresDbContext> options) : base(options) { }
+        public PostgresDbContext() { }
 
-        public DbSet<Mood> Mood { get; set; }
+        public virtual DbSet<Mood> Mood { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
-        public DbSet<MoodLog> MoodLog { get; set; }
+        public virtual DbSet<MoodLog> MoodLog { get; set; }
 
-        public DbSet<Habit> Habit { get; set; }
-        public DbSet<HabitLog> HabitLog { get; set; }
-        public DbSet<UserHabit> UserHabit { get; set; }
+        public virtual DbSet<Habit> Habit { get; set; }
+        public virtual DbSet<HabitLog> HabitLog { get; set; }
+        public virtual DbSet<UserHabit> UserHabit { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
