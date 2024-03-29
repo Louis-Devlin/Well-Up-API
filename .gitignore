@@ -403,3 +403,6 @@ ML/.DS_Store
 .DS_Store
 .vscode/tasks.json
 .vscode/launch.json
+
+# Ignore files in the Well-Up-API.Tests/coveragereport directory
+Well-Up-API.Tests/coveragereport/
