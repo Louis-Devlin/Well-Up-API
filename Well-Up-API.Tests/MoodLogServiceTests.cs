@@ -97,15 +97,19 @@ namespace Well_Up_API.Tests
         [TestMethod]
         public void GetTotalsByDay_ShouldReturnListOfMoodLogCountResponse()
         {
-            // Arrange
-            var userId = 1;
-            var date = DateTime.Now;
 
-            // Act
+            var userId = 1;
+            var date = new DateTime(2024, 3, 28);
+
+
             var result = mockService.GetTotalsByDay(userId, date);
 
-            // Assert
+
             Assert.IsInstanceOfType(result, typeof(List<MoodLogCountResponse>));
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("Sad", result[0].MoodName);
+            Assert.AreEqual("red", result[0].Colour);
+            
         }
     }
 
