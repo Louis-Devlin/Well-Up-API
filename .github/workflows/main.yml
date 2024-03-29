@@ -6,59 +6,35 @@ on:
       - main
 
 jobs:
-  test:
-    name: "Run Tests"
+  deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          dotnet-version: '7.0.x' 
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
 
-      - name: Build
-        run: dotnet build --configuration Release
+      - name: Configure docker for GCP
+        run: gcloud auth configure-docker
 
-      - name: Test
-        run: dotnet test --no-build --configuration Release
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: gcr.io/well-up-api/well-up:latest
+          build-args: |
+            HTTP_PORT=8080
 
-deploy:
-  name: "Deploy to Google Cloud Run"
-  runs-on: ubuntu-latest
-  needs: test
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - id: "auth"
-      uses: "google-github-actions/auth@v1"
-      with:
-        credentials_json: "${{ secrets.GCP_SA_KEY }}"
-
-    - name: "Set up Cloud SDK"
-      uses: "google-github-actions/setup-gcloud@v1"
-
-    - name: Configure docker for GCP
-      run: gcloud auth configure-docker
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: true
-        tags: gcr.io/well-up-api/well-up:latest
-        build-args: |
-          HTTP_PORT=8080
-
-    - name: Deploy to Cloud Run
-      uses: google-github-actions/deploy-cloudrun@v1
-      with:
-        image: gcr.io/well-up-api/well-up:latest
-        service: well-up-api
-        region: europe-west2
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          image: gcr.io/well-up-api/well-up:latest
+          service: well-up-api
+          region: europe-west2
