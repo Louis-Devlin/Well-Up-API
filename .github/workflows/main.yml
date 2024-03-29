@@ -26,7 +26,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./Well-Up-API
           push: true
           tags: gcr.io/well-up-api/well-up:latest
           build-args: |
