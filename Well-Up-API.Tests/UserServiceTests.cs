@@ -55,5 +55,28 @@ namespace Well_Up_API.Tests
             User user = new User() { Email = "none@blah.com", Password = "Invalid" };
             Assert.IsNull(service.Login(user));
         }
+
+        [TestMethod]
+        public void Update_ExistingUser_ReturnsTrue()
+        {
+            UserRequest user = new UserRequest() { Name = "NewName", Password = "Password1", NewPassword = "NewPassword" };
+            Assert.IsTrue(service.Update(1, user));
+        }
+        [TestMethod]
+        public void Update_NonExistingUser_ReturnsFalse()
+        {
+            UserRequest user = new UserRequest() { Name = "NewName", Password = "Password1", NewPassword = "NewPassword" };
+            Assert.IsFalse(service.Update(3, user));
+        }
+        [TestMethod]
+        public void Delete_ExistingUser_ReturnsTrue()
+        {
+            Assert.IsTrue(service.Delete(1));
+        }
+        [TestMethod]
+        public void Delete_NonExistingUser_ReturnsFalse()
+        {
+            Assert.IsFalse(service.Delete(3));
+        }
     }
 }
