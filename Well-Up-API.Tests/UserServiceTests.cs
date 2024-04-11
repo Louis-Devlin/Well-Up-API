@@ -16,8 +16,8 @@ namespace Well_Up_API.Tests
         public void Initialize()
         {
             var userData = new List<User>{
-                new User { UserId = 1, Email = "User1@test.com", Password = "Password1" },
-                new User { UserId = 2, Email = "User2@test.com", Password = "Password2" }
+                new User { UserId = 1, Email = "User1@test.com", Password = "1wvPyLZgis8vPXRv63Ayow==" },
+                new User { UserId = 2, Email = "User2@test.com", Password = "su0nP2m2ftyFtLBvfjn80g==" }
             }.AsQueryable();
             mockUserSet = new Mock<DbSet<User>>();
             mockUserSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(userData.Provider);
