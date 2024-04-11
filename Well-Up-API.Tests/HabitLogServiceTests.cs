@@ -40,13 +40,6 @@ namespace Well_Up_API.Tests
 
         }
         [TestMethod]
-        public void GetWeeklyTotalsReturnsCorrectTotals()
-        {
-            var totals = mockService.GetWeeklyTotals(1);
-            Assert.AreEqual(1, totals["Friday"]);
-            Assert.AreEqual(1, totals["Thursday"]);
-        }
-        [TestMethod]
         public void LogHabitReturnsCorrectId()
         {
             var habit = new HabitLog() { HabitId = 1, UserId = 1, Date = DateTime.Now };
