@@ -1,4 +1,6 @@
 using Well_Up_API.Models;
+using System.Security.Cryptography;
+using System.Text;
 namespace Well_Up_API.Services
 {
     public class UserService
@@ -16,6 +18,7 @@ namespace Well_Up_API.Services
             {
                 return -1;
             }
+            user.Password = EncrpytString(user.Password);
 
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -23,6 +26,7 @@ namespace Well_Up_API.Services
         }
         public User Login(User user)
         {
+            user.Password = EncrpytString(user.Password);
             var userResponse = _context.Users.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
             if (userResponse == null)
             {
@@ -33,6 +37,7 @@ namespace Well_Up_API.Services
 
         public bool Update(int userId, UserRequest user)
         {
+            user.Password = EncrpytString(user.Password);
             var existingUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
             if (existingUser == null || existingUser.Password != user.Password)
             {
@@ -49,7 +54,8 @@ namespace Well_Up_API.Services
             _context.SaveChanges();
             return true;
         }
-        public bool Delete (int userId){
+        public bool Delete(int userId)
+        {
             var existingUser = _context.Users.Where(u => u.UserId == userId).FirstOrDefault();
             if (existingUser == null)
             {
@@ -58,6 +64,32 @@ namespace Well_Up_API.Services
             _context.Users.Remove(existingUser);
             _context.SaveChanges();
             return true;
+        }
+        private string EncrpytString(string plaintextPassword)
+        {
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
+                aes.IV = iv;
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plaintextPassword);
+                        }
+                        array = memoryStream.ToArray();
+                    }
+                }
+
+            }
+            return Convert.ToBase64String(array);
         }
     }
 }
