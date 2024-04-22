@@ -2,7 +2,7 @@
 
 Project Title : Well Up
 
-Project Supervisor: Liz Stuart
+Project Supervisor: Haoyi Wang
 
 ## Project Vision
 
